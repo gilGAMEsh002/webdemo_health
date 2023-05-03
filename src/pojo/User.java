@@ -6,6 +6,7 @@ public class User {
 
     private String name;
     private String pwd;
+    private String mail;
 
     private int collections=0;
     private int comments=0;
@@ -13,9 +14,10 @@ public class User {
 
     }
 
-    public User(String username,String password){
+    public User(String username, String password, String mail){
         name = username;
         pwd = password;
+        this.mail = mail;
     }
 //Getter:所有属性
     public int getId() {
@@ -58,4 +60,11 @@ public class User {
     }
 
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }
