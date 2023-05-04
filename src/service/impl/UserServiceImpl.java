@@ -25,7 +25,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(User var1) {
+    public User login(User user) {
+
+        UserDaoImpl userDao = new UserDaoImpl();
+
+        if(userDao.findByUsernameAndPassword(user)!=null){
+
+        }
+
+
         return null;
     }
 }

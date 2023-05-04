@@ -8,9 +8,62 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
     <title>LOGIN pages</title>
 </head>
 <body>
+<%
+    String rememberUserName="";
+    String rememberPassword="";
+    Cookie[] cookies = request.getCookies();
+    for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
+        if("rememberUser".equals(cookie.getName())){
+            rememberUserName = cookie.getValue().split("&")[0];
+            rememberPassword = cookie.getValue().split("&")[1];
+        }
+    }
 
+
+%>
+<!-- Main -->
+<main class="container">
+    <article class="grid">
+        <div>
+            <hgroup>
+                <h1>Sign in</h1>
+                <h2>A minimalist layout for Login pages</h2>
+            </hgroup>
+            <form action="LoginServlet" method="post" id="loginForm">
+                <input
+                        type="text"
+                        name="username"
+                        value="<%=rememberUserName%>"
+                        placeholder="Username"
+                        aria-label="username"
+                        autocomplete="nickname"
+                        required pattern="[\u4e00-\u9fa5 A-Z a-z 0-9 _]{3,16}"
+                />
+                <input
+                        type="password"
+                        name="password"
+                        value="<%=rememberPassword%>"
+                        placeholder="Password"
+                        aria-label="Password"
+                        autocomplete="current-password"
+                        required pattern="\w{8,20}"
+                />
+                <fieldset>
+                    <label for="remember">
+                        <input type="checkbox" value="true" role="switch" id="remember" name="remember" />
+                        Remember me
+                    </label>
+                </fieldset>
+                <button type="submit" class="contrast" onclick="event.preventDefault()">Login</button>
+            </form>
+        </div>
+        <div></div>
+    </article>
+</main>
+<!-- ./ Main -->
 </body>
 </html>

@@ -11,6 +11,15 @@
         </webroots>
       </configuration>
     </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <datasource-mapping>
+          <factory-entry name="WebDemo2" value="c012d768-f9a3-492c-9246-5eb5710ad8bc" />
+        </datasource-mapping>
+        <naming-strategy-map />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/web/WEB-INF/classes" />
@@ -32,7 +41,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.731" level="application_server_libraries" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../Program/WebDeveloper/apache-tomcat-9.0.73/lib/servlet-api.jar!/" />
@@ -41,7 +50,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="@picocss/pico" level="application" />
-    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" exported="" name="@picocss/pico" level="application" />
+    <orderEntry type="library" exported="" name="lib" level="project" />
   </component>
 </module>
