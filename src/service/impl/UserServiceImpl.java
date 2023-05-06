@@ -29,11 +29,11 @@ public class UserServiceImpl implements UserService {
 
         UserDaoImpl userDao = new UserDaoImpl();
 
-        if(userDao.findByUsernameAndPassword(user)!=null){
 
+        try {
+            return userDao.findByUsernameAndPassword(user);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-
-
-        return null;
     }
 }

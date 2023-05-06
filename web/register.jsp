@@ -141,7 +141,7 @@
                         required pattern="\w{8,20}"
                         onkeyup="confirmPassword()"
             /><span id="warning" style="display: none"></span>
-                <%--                preventDefault()可以在用户没有填写某一栏时提示--%>
+                <%--                preventDefault()可以在用户没有填写某一栏时提示???--%>
                 <button type="submit" class="contrast" onclick="preventDefault()">Register</button>
 
             </form>

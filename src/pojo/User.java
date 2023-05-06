@@ -13,6 +13,10 @@ public class User {
     public User(){
 
     }
+    public User(String username,String password){
+        name = username;
+        pwd = password;
+    }
 
     public User(String username, String password, String mail){
         name = username;

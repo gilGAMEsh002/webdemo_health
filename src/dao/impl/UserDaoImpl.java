@@ -70,7 +70,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByUsernameAndPassword(User var1) {
-        return null;
+    public User findByUsernameAndPassword(User user) throws SQLException, ClassNotFoundException {
+        DbUtil dbUtil = new DbUtil();
+        connection = dbUtil.getConnection();
+        String sql = "select * from user where username=? and password=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, user.getUserName());
+        preparedStatement.setString(2, user.getPassword());
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        User userResult = getUser(resultSet);
+        dbUtil.close(connection);
+        return userResult;
+
     }
 }
