@@ -22,6 +22,8 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        System.out.println("RegisterServlet");
         //获取数据,设置编码方式
         String username = request.getParameter("username");
         String password = request.getParameter("password");

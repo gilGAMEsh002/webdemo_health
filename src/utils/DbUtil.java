@@ -9,7 +9,7 @@ public class DbUtil {
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
 
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(dbUrl,dbUsername,dbPassword);
 
     }

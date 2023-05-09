@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: wuyuanzhou
@@ -8,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
     <title>LOGIN pages</title>
 </head>
@@ -15,15 +17,20 @@
 <%
     String rememberUserName="";
     String rememberPassword="";
-    Cookie[] cookies = request.getCookies();
-    if(cookies!=null){
-        for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
-            if("rememberUser".equals(cookie.getName())){
-                rememberUserName = cookie.getValue().split("&")[0];
-                rememberPassword = cookie.getValue().split("&")[1];
+
+    System.out.println("jsp isRemember"+session.getAttribute("isRemember"));
+    if (session.getAttribute("isRemember")!=null&&session.getAttribute("isRemember").equals(true)){
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
+                if("rememberUser".equals(cookie.getName())){
+                    rememberUserName = cookie.getValue().split("&")[0];
+                    rememberPassword = cookie.getValue().split("&")[1];
+                }
             }
         }
     }
+
 
 
 
@@ -71,6 +78,7 @@
 
                 <button type="submit" class="contrast" >Login</button>
             </form>
+            <a href="register.jsp" style="width: 25%" role="button" class="outline">点击注册</a>
         </div>
         <div></div>
     </article>
