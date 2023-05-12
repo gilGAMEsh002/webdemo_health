@@ -65,7 +65,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateStatus(String vara1) {
+    public boolean updateUser(String vara1) {
         return false;
     }
 

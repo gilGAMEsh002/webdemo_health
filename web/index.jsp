@@ -51,6 +51,7 @@
         <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">
     </ul>
     <ul style="margin-right: 5px;">
+        <li><a href="message.jsp">邮件</a></li>
         <li><a href="user.jsp" role="button" style="padding: 10px;color: #000;">用户</a></li>
     </ul>
 </nav>
