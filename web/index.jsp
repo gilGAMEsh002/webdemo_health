@@ -18,20 +18,20 @@
 </head>
 <body>
 <%-- 导航栏实现   --%>
-<nav>
+<nav aria-label="breadcrumb" style="nav-right: revert">
     <ul>
-        <li><strong><h2>健康</h2></strong></li>
+        <strong>健康</strong>
     </ul>
     <ul>
         <li><a href="index.jsp">首页</a></li>
-        <li><a href="tags.jsp">标签</a></li>
-        <li><a href="user.jsp" role="button">用户</a></li>
+        <li><a href="index.jsp">标签页</a></li>
+        <li><a href="discussion.jsp">讨论区</a></li>
     </ul>
 </nav>
 <%--main--%>
 <main>
 <%--文章--%>
-    <article>
+    <article style="width: 80%;display-model: center;">
         <h2>健康的定义</h2>
         健康是指一个人在身体、精神和社会等方面都处于良好的状态。<br>
         健康包括两个方面的内容：一是主要脏器无疾病，身体形态发育良好，体形均匀，人体各系统具有良好的生理功能，有较强的身体活动能力和劳动能力，这是对健康最基本的要求
