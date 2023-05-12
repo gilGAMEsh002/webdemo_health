@@ -91,8 +91,22 @@
         // $("#username").blur(checkUsername);
         // $("#password").blur(checkPassword);
 
+        function changeCode() {
+            document.getElementById("image").src="code.jsp?d="+Math.random();
+        }
     </script>
 
+    <style>
+        #image{cursor:pointer;}
+        .code{
+            width: 200px;
+            height: 50px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding-left: 10px;
+        }
+    </style>
 </head>
 <body>
 <main class="container">
@@ -140,9 +154,13 @@
 <%--                        aria-label="ConfirmPassword"--%>
                         required pattern="\w{8,20}"
                         onkeyup="confirmPassword()"
-            /><span id="warning" style="display: none"></span>
+                />
+                <input type="text" name="code" id="code" placeholder="验证码" class="code">
+                <img src="code.jsp" id="image" >
+                <a href="javascript:void(0);" onclick="changeCode()">看不清?换一张</a>
+                <span id="warning" style="display: none"></span>
                 <%--                preventDefault()可以在用户没有填写某一栏时提示???--%>
-                <button type="submit" class="contrast" onclick="preventDefault()">Register</button>
+                <button type="submit" class="contrast" on click="preventDefault()">Register</button>
 
             </form>
         </div>

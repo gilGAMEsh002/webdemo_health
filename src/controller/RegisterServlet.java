@@ -29,6 +29,7 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirm_password = request.getParameter("confirm_password");
         String email = request.getParameter("email");
+        String code = request.getParameter("code");
 
 //        byte[] bytes = username.getBytes(StandardCharsets.ISO_8859_1);
 //        username = new String(bytes, StandardCharsets.UTF_8);
@@ -37,6 +38,7 @@ public class RegisterServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
 
+        String result = (String) session.getAttribute("result");
         //封装数据(或许可以做个BeanUtil专门用于封装数据)
         User user = new User(username,password,email);
 
@@ -47,14 +49,20 @@ public class RegisterServlet extends HttpServlet {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println("code :"+code);
+        System.out.println("result :"+result);
         //根据返回值,提示信息
-        if(!flag){
-            out.println("<script>alert(\"此用户已注册！\");location.href = \"register.jsp\";</script>");
+        if (!code.equals(result)) {
+            out.print("<script>alert(\"验证码错误！\");location.href = \"register.jsp?d=\";</script>");
         }else {
-            //注册成功,跳转到登录界面
-            response.sendRedirect("login.jsp");
+            if(!flag){
+                out.println("<script>alert(\"此用户已注册！\");location.href = \"register.jsp\";</script>");
+            }else {
+                //注册成功,跳转到登录界面
+                response.sendRedirect("login.jsp");
+            }
         }
+
 
     }
 }
