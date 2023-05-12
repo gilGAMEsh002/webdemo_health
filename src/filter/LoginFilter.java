@@ -12,7 +12,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns="/*", initParams = {@WebInitParam(name = "exceptUrl", value = "/LoginServlet&/RegisterServlet&/register.jsp&/login.jsp")})
+@WebFilter(filterName = "LoginFilter", urlPatterns="/*", initParams = {@WebInitParam(name = "exceptUrl", value = "/LoginServlet&/RegisterServlet&/register.jsp&/login.jsp&/code.jsp")})
 public class LoginFilter implements Filter {
     private String[] exceptUrls;
     public void init(FilterConfig config) throws ServletException {

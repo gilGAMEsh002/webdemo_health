@@ -11,7 +11,7 @@ public interface UserDao {
 
     User findById(String var1);
 
-    boolean updateStatus(String vara1);
+    boolean updateUser(String vara1);
 
     User findByUsernameAndPassword(User var1) throws SQLException, ClassNotFoundException;
 }
