@@ -20,36 +20,34 @@
     User user = (User) session.getAttribute("user");
 
 %>
-
-<html>
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-    <title>Title</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+<title>Title</title>
 
-    <script>
-        function confirmPassword(){
-            var password1 = document.getElementById("newpassword")
-            var password2 = document.getElementById("confirm_newpassword")
-            var warning = document.getElementById("warning")
+<script>
+    function confirmPassword(){
+        var password1 = document.getElementById("newpassword")
+        var password2 = document.getElementById("confirm_newpassword")
+        var warning = document.getElementById("warning")
 
-            if(password1.value!==password2.value){
-                password2.setCustomValidity("两次密码不一致,请重新输入")
-                warning.style.display = "inline";
-                // document.getElementById("warning").innerHTML="<br>两次输入密码一致";
-                // document.getElementById("submit").disabled = false;
+        if(password1.value!==password2.value){
+            password2.setCustomValidity("两次密码不一致,请重新输入")
+            warning.style.display = "inline";
+            // document.getElementById("warning").innerHTML="<br>两次输入密码一致";
+            // document.getElementById("submit").disabled = false;
 
-            }else {
-                password2.setCustomValidity('');
-                warning.style.display = "none";
-                // document.getElementById("warning").innerHTML="<br>两次输入密码不一致!";
-                // document.getElementById("submit").disabled = true;
-            }
-
+        }else {
+            password2.setCustomValidity('');
+            warning.style.display = "none";
+            // document.getElementById("warning").innerHTML="<br>两次输入密码不一致!";
+            // document.getElementById("submit").disabled = true;
         }
-        document.getElementById("newpassword").onchange = confirmPassword;
-        document.getElementById("confirm_newpassword").onkeyup = confirmPassword;
 
-    </script>
+    }
+    document.getElementById("newpassword").onchange = confirmPassword;
+    document.getElementById("confirm_newpassword").onkeyup = confirmPassword;
+
+</script>
 </head>
 <body>
 <nav>
@@ -78,23 +76,29 @@
     <article>
         <section>
             <ul>
-                <li>用户名:<%=user.getUserName()%></li>
-                <li>邮 箱:<%=user.getMail()%></li>
+                <li><strong>用户名:<%=user.getUserName()%></strong></li>
+                <li><strong>邮 箱:<%=user.getMail()%></strong></li>
             </ul>
         </section>
         <section>
             <h3>修改个人信息</h3>
-            <form  style="display: flex; flex-direction: row">
-                <input type="text" name="newname" placeholder="新用户名" style="width: 50%;justify-content: flex-start">
-                <button type="submit" style="width: 30%">修改用户名</button>
+            <%
+                String choice = "0";
+
+            %>
+            <form action="UpdateUserServlet"  style="display: flex; flex-direction: row">
+                <input type="text" name="newname" placeholder="新用户名" style="width: 50%;justify-content: flex-start"
+                       required pattern="[\u4e00-\u9fa5 A-Z a-z 0-9 _]{3,16}">
+                <button type="submit" style="width: 30%" >修改用户名</button>
             </form>
-            <form style="display: flex; flex-direction: row">
+            <form action="UpdateUserServlet" style="display: flex; flex-direction: row">
                 <input type="email" name="newmail" placeholder="新邮箱" style="width: 50%;justify-content: flex-start">
                 <button type="submit" style="width: 30%">修改邮箱</button>
             </form>
-            <form style="display: flex; flex-direction: row">
+            <form action="UpdateUserServlet" style="display: flex; flex-direction: row">
                 <input type="text" name="newpassword" placeholder="新密码" style="width: 50%;justify-content: flex-start">
-                <input type="text" name="confirm_newpassword" placeholder="确认密码" onkeyup="confirmPassword()" style="width: 50%;">
+                <input type="text" name="confirm_newpassword" placeholder="确认密码" onkeyup="confirmPassword()" style="width: 50%;"
+                       required pattern="\w{8,20}">
                 <button type="submit" style="width: 30%">修改密码</button>
             </form>
         </section>

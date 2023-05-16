@@ -62,7 +62,7 @@
     </header>
 <%--文章--%>
     <article>
-        <div class="card-container" style="display: flex;align-content: center;justify-content: center;">
+        <div class="card-container" style="display: flex;align-content: center;justify-content: center; height: auto">
             <div class="card">
                 <h3>文章标题1</h3>
                 <span class="tag">标签1</span>

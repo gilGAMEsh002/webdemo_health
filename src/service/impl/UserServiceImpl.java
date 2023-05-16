@@ -36,4 +36,27 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    public User updateUserName(User oldUser,String newUserName) throws SQLException, ClassNotFoundException {
+
+        User newUser = null;
+
+        UserDaoImpl userDao = new UserDaoImpl();
+
+        if(userDao.findByUsername(newUserName)!=null){
+            //有,则返回null
+            return null;
+        }{
+            //无,则进行更新
+            try{
+                return userDao.updateUserName(oldUser.getUserName(),newUserName);
+            }catch (SQLException | ClassNotFoundException e){
+                throw new RuntimeException(e);
+            }
+        }
+
+
+
+    }
+
 }

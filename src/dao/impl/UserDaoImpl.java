@@ -5,10 +5,7 @@ import pojo.User;
 import utils.DbUtil;
 import utils.MD5;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class UserDaoImpl implements UserDao {
@@ -68,6 +65,43 @@ public class UserDaoImpl implements UserDao {
     public boolean updateUser(String vara1) {
         return false;
     }
+
+    public User updateUserName(String oldName,String newName) throws SQLException, ClassNotFoundException {
+        DbUtil dbUtil = new DbUtil();
+        connection = dbUtil.getConnection();
+        String sql = "update user set username =? where username=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,newName);
+        preparedStatement.setString(2,oldName);
+
+        User newUser = null;
+        int row = preparedStatement.executeUpdate();
+        if(row==1){
+            System.out.println("(DAO)updateUserName更新username成功");
+            return this.findByUsername(newName);
+        }
+
+        return null;
+    }
+
+    public User updateMail(User oldUser,String newMail) throws SQLException, ClassNotFoundException {
+        DbUtil dbUtil = new DbUtil();
+        connection = dbUtil.getConnection();
+        String sql = "update user set mail =? where mail=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,newMail);
+        preparedStatement.setString(2,oldUser.getMail());
+
+        User newUser = null;
+        int row = preparedStatement.executeUpdate(sql);
+        if(row==1){
+            System.out.println("(DAO)updateUserName更新username成功");
+            return this.findByUsername(oldUser.getUserName());
+        }
+
+        return null;
+    }
+
 
     @Override
     public User findByUsernameAndPassword(User user) throws SQLException, ClassNotFoundException {
