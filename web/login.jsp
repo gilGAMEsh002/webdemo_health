@@ -81,7 +81,8 @@
         article div:nth-of-type(2) {
             display: none;
             background-color: #374956;
-            background-image: url("image/copyimage.jpg");
+            /*疑似idea出bug,将正确的路径报错了*/
+            background-image: url("../image/6E8AC2F0DB0A2FA2259F1DB45FAB2205.jpg");
             background-position: center;
             background-size: cover;
         }
@@ -169,7 +170,10 @@
         </div>
     </article>
 
+
+
 </main>
+
 <!-- ./ Main -->
 </body>
 </html>
