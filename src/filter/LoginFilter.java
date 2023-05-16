@@ -4,10 +4,7 @@ import pojo.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Arrays;
@@ -41,6 +38,9 @@ public class LoginFilter implements Filter {
         }
 
         System.out.println("需要过滤");
+
+
+
         //需要过滤的url 验证用户是否已登录
         HttpSession session = httpRequest.getSession();
         User user = null;

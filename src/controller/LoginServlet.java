@@ -1,6 +1,5 @@
 package controller;
 
-import org.apache.taglibs.standard.tag.rt.sql.SetDataSourceTag;
 import pojo.User;
 import service.impl.UserServiceImpl;
 import utils.MD5;
@@ -15,7 +14,7 @@ import java.io.PrintWriter;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        this.doPost(request,response);
     }
 
     @Override
@@ -26,6 +25,8 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        System.out.println(username);
+
         //封装到user中,注意封装时密码使用md5格式的
         String password_md5 = MD5.stringToMD5(password);
         User user = new User(username,password_md5);
@@ -33,6 +34,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+
 
 
         //调用service
@@ -45,20 +47,37 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("user",flagUser);
             boolean isRemember = Boolean.parseBoolean(request.getParameter("remember"));
             System.out.println("isRemember1 :"+isRemember);
+
             boolean isAutoLogin = Boolean.parseBoolean(request.getParameter("autologin"));
+            System.out.println("isAutologin1:"+isAutoLogin);
+
             if(request.getParameter("remember")==null)
                 isRemember = false;
-            System.out.println("isRemember2 :"+isRemember);
+
+            if(request.getParameter("autologin")==null)
+                isAutoLogin = false;
+
             if(isRemember){
+                System.out.println("加rememberUser的cookie");
                 session.setAttribute("isRemember",true);
                 //将用户名和未加密的密码放进cookie
                 Cookie rememberUserCookie = new Cookie("rememberUser",username+"&"+password);
-                if(isAutoLogin){
-                    rememberUserCookie.setMaxAge(60*60*24*30);
-                    session.setMaxInactiveInterval(60*60*24*30);
-
-                }
+                rememberUserCookie.setMaxAge(60*60*24*30);
                 response.addCookie(rememberUserCookie);
+                if(isAutoLogin){
+                    System.out.println("加isAutologin的cookie");
+                    session.setAttribute("isAutologin",true);
+                    Cookie autologinCookie = new Cookie("autologin","autologin");
+                    autologinCookie.setMaxAge(60*60*24*30);
+                    response.addCookie(autologinCookie);
+
+                }else {
+                    session.setAttribute("isAutologin",false);
+                    System.out.println("删除autoLogin的cookie");
+                    Cookie newCookie = new Cookie("autologin","");
+                    response.addCookie(newCookie);
+                }
+
             }else {
                 session.setAttribute("isRemember",false);
                 System.out.println("删除rememberUser的cookie");

@@ -105,17 +105,20 @@
     String rememberPassword="";
 
     System.out.println("jsp isRemember"+session.getAttribute("isRemember"));
-    if (session.getAttribute("isRemember")!=null&&session.getAttribute("isRemember").equals(true)){
+//    if (session.getAttribute("isRemember")!=null&&session.getAttribute("isRemember").equals(true)){
         Cookie[] cookies = request.getCookies();
         if(cookies!=null){
             for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
-                if("rememberUser".equals(cookie.getName())){
+                if("rememberUser".equals(cookie.getName())&&cookie.getValue()!=null){
                     rememberUserName = cookie.getValue().split("&")[0];
                     rememberPassword = cookie.getValue().split("&")[1];
                 }
+                if(cookie.getValue().equals("autologin")){
+                    response.sendRedirect("LoginServlet?username=" + rememberUserName + "&password=" + rememberPassword);
+                }
             }
         }
-    }
+//    }
 
 
 
@@ -149,16 +152,13 @@
                         required pattern="\w{8,20}"
                 />
                 <fieldset>
-<%--                    <div style="display:-moz-inline-block;float: left; margin-inline-end: 20px">--%>
+
                         <label for="remember">
-                            <input type="checkbox" style="display: -moz-inline-block; float: left" value="true" role="switch" id="remember" name="remember" />
+                            <input type="checkbox" value="true" role="switch" id="remember" name="remember" />
                             Remember me
+                            <input type="checkbox" role="switch" value="true" id="autologin" name="autologin">
+                            Autologin
                         </label>
-<%--                    </div>--%>
-<%--                    <div style="display: inline-block ;float: left; ">--%>
-<%--                        <input type="checkbox" style="display:-moz-inline-block; float: left" value="true" role="switch" id="autologin" name="autologin">--%>
-<%--                          Autologin--%>
-<%--                    </div>--%>
 
                 </fieldset>
 
