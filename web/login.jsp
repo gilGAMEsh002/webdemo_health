@@ -1,4 +1,4 @@
-
+<%@ page import="java.util.Objects" %>
 <%--
   Created by IntelliJ IDEA.
   User: wuyuanzhou
@@ -98,6 +98,22 @@
             padding: 1rem 0;
         }
     </style>
+    <script>
+        // 监听自动登录复选框的变化事件
+        document.getElementById("autologin").addEventListener("change", function() {
+            // 如果勾选了自动登录，则自动勾选记住密码
+            if (this.checked) {
+                document.getElementById("remember").checked = true;
+            }
+        });
+        // 监听记住密码复选框的变化事件
+        document.getElementById("remember").addEventListener("change", function() {
+            // 如果取消了记住密码，则同时取消自动登录
+            if (!this.checked) {
+                document.getElementById("autologin").checked = false;
+            }
+        });
+    </script>
 </head>
 <body>
 <%
@@ -109,13 +125,17 @@
         Cookie[] cookies = request.getCookies();
         if(cookies!=null){
             for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
-                if("rememberUser".equals(cookie.getName())&&cookie.getValue()!=null){
+                if("rememberUser".equals(cookie.getName())&&cookie.getValue()!=null&& !Objects.equals(cookie.getValue(), "")){
+                    System.out.println("remember");
                     rememberUserName = cookie.getValue().split("&")[0];
                     rememberPassword = cookie.getValue().split("&")[1];
+
                 }
-                if(cookie.getValue().equals("autologin")){
+                if(cookie.getValue().equals("autologin")&& !Objects.equals(rememberUserName, "") && !Objects.equals(rememberPassword, "")){
+                    System.out.println("autologin");
                     response.sendRedirect("LoginServlet?username=" + rememberUserName + "&password=" + rememberPassword);
                 }
+
             }
         }
 //    }
@@ -152,14 +172,14 @@
                         required pattern="\w{8,20}"
                 />
                 <fieldset>
-
                         <label for="remember">
                             <input type="checkbox" value="true" role="switch" id="remember" name="remember" />
                             Remember me
+                        </label>
+                        <label for="autologin">
                             <input type="checkbox" role="switch" value="true" id="autologin" name="autologin">
                             Autologin
                         </label>
-
                 </fieldset>
 
                 <button type="submit" class="contrast" >Login</button>

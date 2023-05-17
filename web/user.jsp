@@ -82,10 +82,7 @@
         </section>
         <section>
             <h3>修改个人信息</h3>
-            <%
-                String choice = "0";
 
-            %>
             <form action="UpdateUserServlet"  style="display: flex; flex-direction: row">
                 <input type="text" name="newname" placeholder="新用户名" style="width: 50%;justify-content: flex-start"
                        required pattern="[\u4e00-\u9fa5 A-Z a-z 0-9 _]{3,16}">
@@ -101,6 +98,9 @@
                        required pattern="\w{8,20}">
                 <button type="submit" style="width: 30%">修改密码</button>
             </form>
+        </section>
+        <section>
+
         </section>
     </article>
 

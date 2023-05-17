@@ -106,6 +106,7 @@
             border: 1px solid #ced4da;
             padding-left: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -143,7 +144,7 @@
 <%--                        onblur="checkPassword()"--%>
                         placeholder="8-20个数字或字母"
 <%--                        aria-label="Password"--%>
-                        required pattern="\w{8,20}"
+
                 />
 <%--                <span style="font-size:13px" id="passwordspan"></span>--%>
                 请确认密码:<input
@@ -155,7 +156,8 @@
                         required pattern="\w{8,20}"
                         onkeyup="confirmPassword()"
                 />
-                <input type="text" name="code" id="code" placeholder="验证码" class="code">
+
+                <input type="text" name="code" id="code" placeholder="验证码" class="code" required>
                 <img src="code.jsp" id="image" >
                 <a href="javascript:void(0);" onclick="changeCode()">看不清?换一张</a>
                 <span id="warning" style="display: none"></span>
@@ -164,7 +166,9 @@
 
             </form>
         </div>
-        <div></div>
+        <div>
+            <img src="/image/king'sInvite.png">
+        </div>
     </article>
 </main>
 </body>

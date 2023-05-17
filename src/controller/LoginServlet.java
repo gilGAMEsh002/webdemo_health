@@ -71,18 +71,22 @@ public class LoginServlet extends HttpServlet {
                     autologinCookie.setMaxAge(60*60*24*30);
                     response.addCookie(autologinCookie);
 
-                }else {
-                    session.setAttribute("isAutologin",false);
-                    System.out.println("删除autoLogin的cookie");
-                    Cookie newCookie = new Cookie("autologin","");
-                    response.addCookie(newCookie);
                 }
+//                else {
+//                    session.setAttribute("isAutologin",false);
+//                    System.out.println("删除autoLogin的cookie");
+//                    Cookie newCookie = new Cookie("autologin","");
+//                    response.addCookie(newCookie);
+//                }
 
-            }else {
-                session.setAttribute("isRemember",false);
-                System.out.println("删除rememberUser的cookie");
-                Cookie newCookie=new Cookie("rememberUser","");
-                response.addCookie(newCookie);
+            }
+//            else {
+//                session.setAttribute("isRemember",false);
+//                System.out.println("删除rememberUser的cookie");
+//
+//                Cookie newCookie=new Cookie("rememberUser",null);
+//                response.addCookie(newCookie);
+//
 //                Cookie[] cookies = request.getCookies();
 //                if(cookies!=null){
 //                    for (Cookie cookie:cookies) {
@@ -91,7 +95,7 @@ public class LoginServlet extends HttpServlet {
 //                        }
 //                    }
 //                }
-            }
+//            }
 
             System.out.println("isRemember:"+session.getAttribute("isRemember"));
             response.sendRedirect("index.jsp");
