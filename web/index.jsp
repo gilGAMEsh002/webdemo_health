@@ -27,6 +27,7 @@
 
         /* 卡片样式 */
         .card {
+            background-color: #f5f5f5;
             width:50%;
             padding: 20px;
             margin-bottom: 20px;
@@ -39,11 +40,13 @@
 
     </style>
 </head>
-<body>
+<body style="background-color: #c4efe7">
 <%-- 导航栏实现   --%>
 <nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #fff;">
-    <ul style="margin-left: 5px;">
-        <li><strong><a href="index.jsp" style="font-size: 24px;">健康</a></strong></li>
+    <ul style="margin-left: 5px;border: crimson 1px solid;width: 5%; ">
+        <li style="display: flex;justify-content: center;align-content: center;"><strong><a href="index.jsp" style="font-size: 30px;">健&nbsp;康</a></strong></li>
+    </ul>
+    <ul style=";border: black 1px solid;">
         <li><a href="tags.jsp">标签页</a></li>
         <li><a href="discussion.jsp">讨论组</a></li>
     </ul>
@@ -52,7 +55,7 @@
     </ul>
     <ul style="margin-right: 5px;">
         <li><a href="message.jsp">邮件</a></li>
-        <li><a href="user.jsp" role="button" style="padding: 10px;color: #000;">用户</a></li>
+        <li><a href="user.jsp" role="button" style="padding: 10px;color: #ffffff;">用户</a></li>
     </ul>
 </nav>
 <%--main--%>
@@ -62,7 +65,7 @@
     </header>
 <%--文章--%>
     <article>
-        <div class="card-container" style="display: flex;align-content: center;justify-content: center; height: auto">
+        <div class="card-container" style="display: flex;align-content: center;justify-content: center; height: auto;background-color: #f5f5f5">
             <div class="card">
                 <h3>文章标题1</h3>
                 <span class="tag">标签1</span>

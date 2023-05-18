@@ -74,7 +74,7 @@ public class UserDaoImpl implements UserDao {
         preparedStatement.setString(1,newName);
         preparedStatement.setString(2,oldName);
 
-        User newUser = null;
+
         int row = preparedStatement.executeUpdate();
         if(row==1){
             System.out.println("(DAO)updateUserName更新username成功");
@@ -87,21 +87,39 @@ public class UserDaoImpl implements UserDao {
     public User updateMail(User oldUser,String newMail) throws SQLException, ClassNotFoundException {
         DbUtil dbUtil = new DbUtil();
         connection = dbUtil.getConnection();
-        String sql = "update user set mail =? where mail=?";
+        String sql = "update user set mail =? where username=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,newMail);
-        preparedStatement.setString(2,oldUser.getMail());
+        preparedStatement.setString(2,oldUser.getUserName());
 
-        User newUser = null;
-        int row = preparedStatement.executeUpdate(sql);
+
+        int row = preparedStatement.executeUpdate();
         if(row==1){
-            System.out.println("(DAO)updateUserName更新username成功");
+            System.out.println("(DAO)updateUserPassword更新Password成功");
             return this.findByUsername(oldUser.getUserName());
         }
 
         return null;
     }
 
+    public User updatePassword(User oldUser, String newUserPassword) throws SQLException, ClassNotFoundException {
+        DbUtil dbUtil = new DbUtil();
+        connection = dbUtil.getConnection();
+        String sql = "update user set password=? where username=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,MD5.stringToMD5(newUserPassword));
+        preparedStatement.setString(2,oldUser.getUserName());
+
+        User newUser = null;
+        int row = preparedStatement.executeUpdate();
+        if(row==1){
+            System.out.println("(DAO)updateUserMail更新mail成功");
+            return this.findByUsername(oldUser.getUserName());
+        }
+
+
+        return null;
+    }
 
     @Override
     public User findByUsernameAndPassword(User user) throws SQLException, ClassNotFoundException {
@@ -118,4 +136,6 @@ public class UserDaoImpl implements UserDao {
         return userResult;
 
     }
+
+
 }

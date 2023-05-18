@@ -10,6 +10,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @WebServlet(name = "UpdateUserServlet", value = "/UpdateUserServlet")
 public class UpdateUserServlet extends HttpServlet {
@@ -44,6 +45,17 @@ public class UpdateUserServlet extends HttpServlet {
                 }else{
                     System.out.println("(servlet)用户名更新成功");
                     session.setAttribute("user",newUser);
+                    Cookie[] cookies = request.getCookies();
+                    if(cookies!=null){
+                        for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
+                            if("rememberUser".equals(cookie.getName())&&cookie.getValue()!=null&& !Objects.equals(cookie.getValue(), "")){
+                                System.out.println("remember更新用户名");
+                                String password = cookie.getValue().split("&")[1];
+                                cookie.setValue(newUser.getUserName()+"&"+password);
+                                response.addCookie(cookie);
+                            }
+                        }
+                    }
                     response.sendRedirect("user.jsp");
 
                 }
@@ -53,7 +65,37 @@ public class UpdateUserServlet extends HttpServlet {
             }
         }
         if(newMail!=null){
-
+            System.out.println("mail");
+            newUser = userService.updateUserMail(oldUser,newMail);
+            if (newUser==null){
+                System.out.println("更新邮箱失败");
+            }else {
+                System.out.println("(servlet)邮箱更新成功");
+                session.setAttribute("user",newUser);
+                response.sendRedirect("user.jsp");
+            }
+        }
+        if(newPassword!=null&&confirm_newPassword!=null){
+            System.out.println("password");
+            newUser = userService.updateUserPassword(oldUser,newPassword);
+            if (newUser==null){
+                System.out.println("更新密码失败");
+            }else {
+                System.out.println("(servlet)密码更新成功");
+                session.setAttribute("user",newUser);
+                Cookie[] cookies = request.getCookies();
+                if(cookies!=null){
+                    for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
+                        if("rememberUser".equals(cookie.getName())&&cookie.getValue()!=null&& !Objects.equals(cookie.getValue(), "")){
+                            System.out.println("remember更新密码");
+                            String username = cookie.getValue().split("&")[0];
+                            cookie.setValue(username+"&"+newPassword);
+                            response.addCookie(cookie);
+                        }
+                    }
+                }
+                response.sendRedirect("user.jsp");
+            }
         }
         System.out.println("nothing");
     }

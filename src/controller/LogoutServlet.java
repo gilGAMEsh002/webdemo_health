@@ -5,6 +5,7 @@ import pojo.User;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(name = "LogoutServlet", value = "/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
@@ -15,6 +16,7 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String terms = request.getParameter("terms");
         HttpSession session = request.getSession();
         User user = null;
         System.out.println("设置user");
@@ -23,9 +25,14 @@ public class LogoutServlet extends HttpServlet {
 
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie:cookies) {
+            if(Objects.equals(terms, "true")&&cookie.getName().equals("rememberUser")){
+                cookie.setMaxAge(0);
+                System.out.println("rememberUser的maxage:"+cookie.getMaxAge());
+                response.addCookie(cookie);
+            }
             if(cookie.getName().equals("autologin")){
                 cookie.setMaxAge(0);
-                System.out.println("maxage:"+cookie.getMaxAge());
+                System.out.println("autologin的maxage:"+cookie.getMaxAge());
                 response.addCookie(cookie);
             }
         }

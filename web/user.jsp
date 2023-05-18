@@ -112,11 +112,20 @@
 
 
     <footer>
-        <div style="display-inside: ruby-base-container">
-            <a href="${pageContext.request.contextPath}/LogoutServlet" role="button" >
-                登出
-            </a>
-        </div>
+        <form action="${pageContext.request.contextPath}/LogoutServlet">
+            <fieldset>
+                <label for="terms">
+                    <input type="checkbox" id="terms" name="terms" value="true">取消记住密码
+                </label>
+            </fieldset>
+            <button type="submit" class="contrast" style="width: 30% ">Logout</button>
+        </form>
+
+<%--        <div style="display-inside: ruby-base-container">--%>
+<%--            <a href="${pageContext.request.contextPath}/LogoutServlet" role="button" >--%>
+<%--                登出--%>
+<%--            </a>--%>
+<%--        </div>--%>
 
     </footer>
 
