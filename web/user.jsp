@@ -142,14 +142,14 @@
 
         </section>
     </article>
-
+//
     <article>
 <%--           <iframe src="collections_presence.jsp" width="50%"></iframe>--%>
             <a href="collections_presence.jsp">收藏夹</a>
 
     </article>
 
-
+//
     <footer>
         <form action="${pageContext.request.contextPath}/LogoutServlet">
             <fieldset>
