@@ -42,13 +42,13 @@
 </head>
 <body style="background-color: #c4efe7">
 <%-- 导航栏实现   --%>
-<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #fff;">
-    <ul style="margin-left: 5px;border: crimson 1px solid;width: 5%; ">
+<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #ffffff;">
+    <ul style="margin-left: 1px;border: crimson 1px solid;width: 6%; ">
         <li style="display: flex;justify-content: center;align-content: center;"><strong><a href="index.jsp" style="font-size: 30px;">健&nbsp;康</a></strong></li>
     </ul>
     <ul style=";border: black 1px solid;">
-        <li><a href="tags.jsp">标签页</a></li>
-        <li><a href="discussion.jsp">讨论组</a></li>
+        <li style=";border: black 1px solid;"><a href="ShowTagsServlet">标签页</a></li>
+        <li style=";border: black 1px solid;"><a href="discussion.jsp">讨论组</a></li>
     </ul>
     <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">
         <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">

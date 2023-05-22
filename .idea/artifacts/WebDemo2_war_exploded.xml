@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="WebDemo2:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/WebDemo2_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/web</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -11,6 +11,8 @@
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-j-8.0.33.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar" />
+          <element id="library" level="project" name="lib" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/jsmartcom_zh_CN.jar" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="WebDemo2/web/Web" />

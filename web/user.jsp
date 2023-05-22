@@ -22,6 +22,7 @@
 %>
 <head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <title>Title</title>
 
 <script>
@@ -46,6 +47,35 @@
     }
     document.getElementById("newpassword").onchange = confirmPassword;
     document.getElementById("confirm_newpassword").onkeyup = confirmPassword;
+
+    function uploadAvatar() {
+        // 获取上传的文件
+        var file = document.querySelector('input[type="file"]').files[0];
+
+        // 构造 FormData 对象
+        var formData = new FormData();
+        formData.append('avatar', file, '<%= user.getUserName() %>' + Date.now() + '.jpg');
+
+        // 发送 Ajax 请求
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'UploadImageServlet', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // 上传成功，刷新页面
+                window.location.reload();
+            } else {
+                // 上传失败，显示错误信息
+                alert('上传失败：' + xhr.statusText);
+            }
+        };
+        xhr.send(formData);
+
+
+        document.querySelector('#uploadForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            uploadAvatar();
+        });
+    }
 
 </script>
 </head>
@@ -75,13 +105,22 @@
 
     <article>
         <section>
-            <ul>
-                <li><strong>用户名:<%=user.getUserName()%></strong></li>
-                <li><strong>邮 箱:<%=user.getMail()%></strong></li>
+            <ul style="list-style: none">
+                <li style="display: inline-block;border-radius: 10px">
+                    <img style="width: 180px;height: 180px;border-radius: 10px" src="${pageContext.request.contextPath}<%=user.getAvatar_path()%>" alt="用户头像">
+                </li>
+                <br>
+                <li style="display: inline-block;"><strong>用户名:<%=user.getUserName()%></strong></li>
+                <br>
+                <li style="display: inline-block;"><strong>邮 箱:<%=user.getMail()%></strong></li>
             </ul>
         </section>
         <section>
             <h3>修改个人信息</h3>
+            <form action="UploadImageServlet" id="uploadForm" method="post" enctype="multipart/form-data">
+                <input type="file" name="avatar">
+                <input style="width: 50%" type="submit" value="上传">
+            </form>
 
             <form action="UpdateUserServlet"  style="display: flex; flex-direction: row">
                 <input type="text" name="newname" placeholder="新用户名" style="width: 50%;justify-content: flex-start"

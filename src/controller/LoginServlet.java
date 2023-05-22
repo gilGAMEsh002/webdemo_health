@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -22,8 +23,8 @@ public class LoginServlet extends HttpServlet {
 
         System.out.println("LoginServlet");
         //获取表单数据
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = URLDecoder.decode(request.getParameter("username"));
+        String password = URLDecoder.decode(request.getParameter("password"));
 
         System.out.println(username);
 
@@ -98,7 +99,7 @@ public class LoginServlet extends HttpServlet {
 //            }
 
             System.out.println("isRemember:"+session.getAttribute("isRemember"));
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(request.getContextPath());
         } else{
             out.println("<script>alert(\"用户名或密码错误！\");location.href = \"login.jsp\";</script>");
         }

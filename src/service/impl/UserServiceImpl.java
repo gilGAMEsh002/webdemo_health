@@ -77,4 +77,10 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public boolean updateUserAvatar(String username,String path) throws SQLException, ClassNotFoundException {
+        UserDaoImpl userDao = new UserDaoImpl();
+
+        return userDao.updatePath(username,path);
+    }
+
 }

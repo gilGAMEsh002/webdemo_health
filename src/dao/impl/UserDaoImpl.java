@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.UserDao;
+import jdk.nashorn.internal.ir.SplitReturn;
 import pojo.User;
 import utils.DbUtil;
 import utils.MD5;
@@ -18,6 +19,7 @@ public class UserDaoImpl implements UserDao {
             user.setUserName(resultSet.getString("username"));
             user.setMail(resultSet.getString("mail"));
             user.setPassword(resultSet.getString("password"));
+            user.setAvatar_path(resultSet.getString("Avatar_path"));
         }
         return user;
     }
@@ -39,15 +41,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean addUser(User user) throws SQLException, ClassNotFoundException {
 
+        //设置标志;获取数据库连接
         boolean flag = false;
         DbUtil dbUtil = new DbUtil();
         connection = dbUtil.getConnection();
+
+        //编写sql及准备语句
         String sql = "insert into user(username,password,mail,collection_number,comment_number)values(?,?,?,0,0)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, user.getUserName());
         preparedStatement.setString(2, MD5.stringToMD5(user.getPassword()));//最后添加密码到数据库要添加MD5格式的
         preparedStatement.setString(3, user.getMail());
 
+        //执行sql,获取执行结果,设置标志
         preparedStatement.executeUpdate();
         if(findByUsername(user.getUserName())!=null){
             flag = true;
@@ -138,4 +144,16 @@ public class UserDaoImpl implements UserDao {
     }
 
 
+    public boolean updatePath(String username, String path) throws SQLException, ClassNotFoundException {
+
+        DbUtil dbUtil = new DbUtil();
+        connection = dbUtil.getConnection();
+        String sql = "UPDATE user SET avatar_path = ? WHERE username = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,path);
+        preparedStatement.setString(2,username);
+        int row = preparedStatement.executeUpdate();
+
+        return row==1;
+    }
 }

@@ -14,6 +14,11 @@ public class DbUtil {
 
     }
 
+    public void close(ResultSet resultSet,Statement statement,Connection connection) throws SQLException {
+        close(resultSet);
+        close(connection);
+        close(statement);
+    }
     public void close(ResultSet resultSet) throws SQLException {
         if(resultSet!=null){
             resultSet.close();

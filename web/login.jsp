@@ -1,4 +1,5 @@
 <%@ page import="java.util.Objects" %>
+<%@ page import="java.net.URLEncoder" %>
 <%--
   Created by IntelliJ IDEA.
   User: wuyuanzhou
@@ -9,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta http-equiv="Content-Type" charset="utf-8">
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core_1_1" %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
     <title>LOGIN pages</title>
@@ -98,22 +100,7 @@
             padding: 1rem 0;
         }
     </style>
-    <script>
-        // 监听自动登录复选框的变化事件
-        document.getElementById("autologin").addEventListener("change", function() {
-            // 如果勾选了自动登录，则自动勾选记住密码
-            if (this.checked) {
-                document.getElementById("remember").checked = true;
-            }
-        });
-        // 监听记住密码复选框的变化事件
-        document.getElementById("remember").addEventListener("change", function() {
-            // 如果取消了记住密码，则同时取消自动登录
-            if (!this.checked) {
-                document.getElementById("autologin").checked = false;
-            }
-        });
-    </script>
+
 </head>
 <body>
 <%
@@ -123,17 +110,33 @@
     System.out.println("jsp isRemember"+session.getAttribute("isRemember"));
 //    if (session.getAttribute("isRemember")!=null&&session.getAttribute("isRemember").equals(true)){
         Cookie[] cookies = request.getCookies();
+        Boolean autologin = false;
         if(cookies!=null){
+            System.out.println("cookie不为空"+" "+cookies.length);
             for (Cookie cookie:cookies) {//查找cookie中记住的用户名和密码
                 if("rememberUser".equals(cookie.getName())&&cookie.getValue()!=null&& !Objects.equals(cookie.getValue(), "")){
-                    System.out.println("remember");
+                    System.out.println("记住密码");
                     rememberUserName = cookie.getValue().split("&")[0];
                     rememberPassword = cookie.getValue().split("&")[1];
 
                 }
-                if(cookie.getValue().equals("autologin")&& !Objects.equals(rememberUserName, "") && !Objects.equals(rememberPassword, "")){
-                    System.out.println("autologin");
-                    response.sendRedirect("LoginServlet?username=" + rememberUserName + "&password=" + rememberPassword);
+//                System.out.println("用户名"+rememberUserName);
+//                System.out.println("密码"+rememberPassword);
+//                System.out.println(cookie.getValue());
+                if(cookie.getValue().equals("autologin"))
+                    autologin = true;
+//
+//                if(autologin&& !Objects.equals(rememberUserName, "") && !Objects.equals(rememberPassword, "")){
+//                    System.out.println("autologin");
+//                    response.sendRedirect("LoginServlet?username=" + rememberUserName + "&password=" + rememberPassword);
+//                }
+                System.out.println("    "+autologin+" "+rememberUserName+" "+rememberPassword);
+                if(autologin&& !Objects.equals(rememberUserName, "") && !Objects.equals(rememberPassword, "")){
+                    System.out.println("自动登录");
+                    String encodedUserName = URLEncoder.encode(rememberUserName, "UTF-8");
+                    String encodedPassword = URLEncoder.encode(rememberPassword, "UTF-8");
+                    response.sendRedirect("LoginServlet?username=" + encodedUserName + "&password=" + encodedPassword);
+                    return;
                 }
 
             }
