@@ -2,6 +2,8 @@
 <%@ page import="pojo.SimpleArticle" %>
 <%@ page import="service.ArticleService" %>
 <%@ page import="pojo.Article" %>
+<%@ page import="service.CommentService" %>
+<%@ page import="pojo.Comment" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java"   isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -45,6 +47,26 @@
 <%--${requestScope.article.title}
 ${requestScope.article.content}
 ${requestScope.article.article_id}--%>
+
+
+
+  <%
+      Integer current_pagestr= (Integer) request.getAttribute("current_page");
+      if(current_pagestr==null||"".equals(current_pagestr)){
+          int current_page=1;
+          request.setAttribute("current_page",current_page);
+
+          CommentService CS=CommentService.getInstance();
+          List<Comment> commentlist=CS.get_comment(current_page,article.getArticle_id());
+          request.setAttribute("commentlist",commentlist);
+
+          int page_count= CS.get_page_count();
+          request.setAttribute("page_count",page_count);
+
+          int comment_counts=CS.get_comment_count(article.getArticle_id());
+          request.setAttribute("comment_counts",comment_counts);
+      }
+  %>
   <article>
       <div class="article_title">
           <h2 style="">${article.title}</h2>
@@ -83,6 +105,17 @@ ${requestScope.article.article_id}--%>
       </c:forEach><br>
   </table>
   </div>
+  共${requestScope.comment_counts}条评论
+  第${requestScope.current_page}页/共${requestScope.page_count}页
+  <a href="getCommentServlet?current_page=1&id=${article.article_id}">首页</a>
+  <c:if test="${requestScope.current_page==1}">上一页</c:if>
+  <c:if test="${requestScope.current_page>1}">
+      <a href="getCommentServlet?current_page=${requestScope.current_page-1}&id=${article.article_id}">上一页</a></c:if>
+  <c:if test="${requestScope.current_page==requestScope.page_count}">下一页</c:if>
+  <c:if test="${requestScope.current_page<requestScope.page_count}">
+      <a href="getCommentServlet?current_page=${requestScope.current_page+1}&id=${article.article_id}">下一页</a></c:if>
+  <a href="getCommentServlet?current_page=${requestScope.page_count}&id=${article.article_id}">尾页</a>
+
 
 
   </body>

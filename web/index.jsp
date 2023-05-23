@@ -49,13 +49,13 @@
     <ul style=";border: black 1px solid;">
         <li style=";border: black 1px solid;"><a href="ShowTagsServlet">标签页</a></li>
         <li style=";border: black 1px solid;"><a href="discussion.jsp">讨论组</a></li>
-        <li style=";border: black 1px solid;"><a href="article.jsp">文章</a></li>
+        <li style=";border: black 1px solid;"><a href="simple_article.jsp">文章</a></li>
     </ul>
     <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">
         <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">
     </ul>
     <ul style="margin-right: 5px;">
-        <li><a href="message.jsp">邮件</a></li>
+        <li><a href="GetMessage">邮件</a></li>
         <li><a href="user.jsp" role="button" style="padding: 10px;color: #ffffff;">用户</a></li>
     </ul>
 </nav>

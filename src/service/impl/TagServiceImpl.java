@@ -21,6 +21,16 @@ public class TagServiceImpl implements TagService {
     public boolean attach(int article_id,String[] tags) throws SQLException, ClassNotFoundException {
 
         System.out.println("attachService");
+
+        //如果不存在tag,添加tag
+        for (int i = 0; i < tags.length; i++) {
+            if(tagDao.findByName(tags[i]) == null){
+                tagDao.addTag(tags[i]);
+            }
+        }
+
+
+
         //根据标签名,获得标签id
         int[] tags_id = new int[tags.length];
         for (int i = 0; i < tags.length; i++) {

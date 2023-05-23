@@ -50,6 +50,6 @@ public class AddMessageServlet extends HttpServlet {
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        resp.sendRedirect("AddMessageSuccess.jsp");
+        resp.sendRedirect("GetMessage");
     }
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 @WebServlet(name = "deleteArticleServlet", value = "/deleteArticleServlet")
 public class deleteArticleServlet extends HttpServlet {
@@ -23,7 +24,12 @@ public class deleteArticleServlet extends HttpServlet {
         String id = request.getParameter("id");
         ArticleService as = ArticleService.getInstance();
 
-        boolean flag=as.deleteArticle(Integer.parseInt(id));
+        boolean flag= false;
+        try {
+            flag = as.deleteArticle(Integer.parseInt(id));
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         if(flag){
             PrintWriter out=response.getWriter();
             out.println("<script>alert('删除成功');window.location.href='admin.jsp'</script>");

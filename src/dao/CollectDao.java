@@ -5,15 +5,15 @@ import java.util.ArrayList;
 
 public class CollectDao {
     private Connection conn=null;
-    public void addCollect(String username,String articleName,String favorite){
+    public void addCollect(String username,String articleID,String favorite){
                 /* 在collect_table表中添加收藏关系*/
-        String sql="INSERT INTO collect_table(USERNAME,ARTICLENAME,FAVORITE)values(?,?,?)";
+        String sql="INSERT INTO collect_table(USERNAME,ARTICLEID,FAVORITE)values(?,?,?)";
         DbUtil dbUtil=new DbUtil();
         try {
             conn= dbUtil.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1,username);
-            preparedStatement.setString(2,articleName);
+            preparedStatement.setString(2,articleID);
             preparedStatement.setString(3,favorite);
             preparedStatement.executeUpdate();
             System.out.println("收藏添加成功");
@@ -28,15 +28,15 @@ public class CollectDao {
         }
 
     }/* 在collect_table表中添加收藏关系*/
-    public void deleteCollection(String username,String articleName){
+    public void deleteCollection(String username,String articleID){
                 /*在collect_table表中删除收藏关系*/
         DbUtil dbUtil=new DbUtil();
-        String sql="delete from collect_table where USERNAME=? AND ARTICLENAME=?";
+        String sql="delete from collect_table where USERNAME=? AND ARTICLEID=?";
         try {
             conn= dbUtil.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1,username);
-            preparedStatement.setString(2,articleName);
+            preparedStatement.setString(2,articleID);
             preparedStatement.executeUpdate();
             preparedStatement.close();
             conn.close();
@@ -48,7 +48,7 @@ public class CollectDao {
             throw new RuntimeException(e);
         }
     }/*在collect_table表中删除收藏关系*/
-    public boolean is_collect(String username,String articleName){
+    public boolean is_collect(String username,String articleID){
                     /* 收藏关系是否存在*/
         boolean is_collect_exist=false;
         DbUtil dbUtil=new DbUtil();
@@ -59,8 +59,8 @@ public class CollectDao {
             ResultSet resultSet = stmt.executeQuery(sql);
             while (resultSet.next()){
                 String dataUSERNAME=resultSet.getString(1);
-                String dataARTICLENAME=resultSet.getString(2);
-                if(dataUSERNAME.equals(username)&&dataARTICLENAME.equals(articleName)){
+                String dataARTICLEID=resultSet.getString(2);
+                if(dataUSERNAME.equals(username)&&dataARTICLEID.equals(articleID)){
                     is_collect_exist=true;
                     break;
                 }
@@ -88,7 +88,7 @@ public class CollectDao {
             preparedStatement.setString(2,favorite);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                user_collections.add(resultSet.getString("ARTICLENAME"));
+                user_collections.add(resultSet.getString("ARTICLEID"));
             }
             preparedStatement.close();
             conn.close();
@@ -101,15 +101,15 @@ public class CollectDao {
         }
         return user_collections;
     }/*用户收藏列表查询*/
-    public ArrayList articleCollected(String articleName){
+    public ArrayList articleCollected(String articleID){
                     /*文章收藏列表查询*/
         ArrayList article_collections=new ArrayList();
         DbUtil dbUtil=new DbUtil();
         try {
             conn= dbUtil.getConnection();
-            String sql="select * from collect_table where ARTICLENAME=?";
+            String sql="select * from collect_table where ARTICLEID=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1,articleName);
+            preparedStatement.setString(1,articleID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 article_collections.add(resultSet.getString("USERNAME"));

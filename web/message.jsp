@@ -15,6 +15,23 @@
 </head>
 <body>
 <main class="container">
+
+    <table>
+        <tr>
+            <th width="300">时间</th>
+            <th width="200">用户名</th>
+            <th width="200">标题</th>
+            <th width="400">内容</th>
+        </tr>
+        <c:forEach items="${messageList}" var="message" varStatus="status">
+        <tr>
+            <td>${message.time}</td>
+            <td>${message.name}</td>
+            <td>${message.title}</td>
+            <td>${message.contacts}</td>
+        </tr>
+        </c:forEach>
+    </table>
     <article class="grid">
         <div>
             <hgroup>

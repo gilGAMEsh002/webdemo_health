@@ -5,7 +5,7 @@
   Time: 21:08
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.ArrayList,dao.*" %>
 
 <%--用户未登录会被过滤,跳转到login.jsp--%>
 <%--用户已登录则在此显示用户信息
@@ -79,7 +79,7 @@
 
 </script>
 </head>
-<body>
+<body onload="initAJAX()">
 <nav>
     <img src="../image/6019@1580486573@2.png" style="width: 100%; height: calc(1/3 * 100%); object-fit: none; object-position: bottom;">
 </nav>
@@ -142,14 +142,89 @@
 
         </section>
     </article>
-//
-    <article>
-<%--           <iframe src="collections_presence.jsp" width="50%"></iframe>--%>
-            <a href="collections_presence.jsp">收藏夹</a>
 
+    <SCRIPT language="JavaScript">
+        var xmlHttp= false;
+        var number=1;
+        function initAJAX(){
+            if(window. XMLHttpRequest) {
+                xmlHttp = new XMLHttpRequest();
+            }
+            else if(window. ActiveXObject){
+                //IE浏览器
+                try{
+                    xmlHttp=new ActiveXObject("Msxm12.XML.HTTP");
+                }catch(e){
+                    try{
+                        xmlHttp= new ActiveXObject("Microsoft.XMLHTTP");
+                    }catch(e){
+                        window.alert("该浏览器不支持AJAX");
+                    }
+                }
+            }
+        }
+        function showInfo(){
+            number++;
+            if(number%2==0) {
+                xmlHttp.open("GET", "favorite2.jsp", true);
+            }else{
+                xmlHttp.open("GET", "favorite1.jsp", true);
+            }
+            xmlHttp.onreadystatechange =function(){
+                if(xmlHttp.readyState == 4) {
+                    infoDiv.innerHTML=xmlHttp.responseText;
+                }
+            }
+            xmlHttp.send();
+        }
+    </SCRIPT>
+    <%
+        String favorite="1";
+        //User user = (User) session.getAttribute("user");
+        CollectDao dao=new CollectDao();
+        ArrayList collections=new ArrayList();
+        collections=dao.userCollections(user.getUserName(), favorite);
+    %>
+    <article>
+        <div>
+
+            <nav>
+                <ul>
+                    <li><h2>收藏夹</h2></li>
+                </ul>
+            </nav>
+            <form action="/Favorite_Servlet">
+                <fieldset>
+                    <label for="switch">
+                        <p align="left">
+                            &ensp;切&emsp;换&emsp;收&emsp;藏&emsp;夹：<br>
+                            收藏夹1
+                            <input type="checkbox" id="switch" name="switch" role="switch" onchange="showInfo()">
+                            收藏夹2
+                        </p>
+                    </label>
+                </fieldset>
+            </form>
+        </div>
+        <details>
+            <summary role="button" class="secondary">展开/收起</summary>
+            <div id="infoDiv">
+                <%for (int i=collections.size()-1;i>=0;i--)
+                {
+                    out.println("<aside>\n" +
+                            "    <nav>\n" +
+                            "        <ul>\n" +
+                            "            <article><li><a href=\"#\">"+collections.get(i)+"</a></li></article>\n" +
+                            "        </ul>\n" +
+                            "    </nav>\n" +
+                            "</aside>\n" +
+                            "</body>\n" +
+                            "</html>");
+                }%>
+            </div>
+        </details>
     </article>
 
-//
     <footer>
         <form action="${pageContext.request.contextPath}/LogoutServlet">
             <fieldset>

@@ -34,6 +34,6 @@ public class GetMessage extends HttpServlet {
             throw new RuntimeException(e);
         }
         request.setAttribute("messageList", messageList);
-        request.getRequestDispatcher("ShowMessage.jsp").forward(request,response);
+        request.getRequestDispatcher("message.jsp").forward(request,response);
     }
 }

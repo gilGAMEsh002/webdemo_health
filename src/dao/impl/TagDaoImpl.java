@@ -62,9 +62,17 @@ public class TagDaoImpl implements TagDao {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        Tag result = getTag(resultSet);
-        dbUtil.close(connection);
-        return result;
+
+        if(resultSet!=null){
+            Tag result = getTag(resultSet);
+            dbUtil.close(connection);
+            return result;
+        }else {
+            dbUtil.close(connection);
+            return null;
+        }
+
+
 
     }
 
@@ -119,7 +127,7 @@ public class TagDaoImpl implements TagDao {
 
         DbUtil dbUtil = new DbUtil();
         connection = dbUtil.getConnection();
-        String sql1 = "UPDATE article_tag JOIN articles ON article_tag.article_id = articles.article_id SET article_tag.article_title = articles.article_title;";
+        String sql1 = "UPDATE article_tag JOIN table_article ON article_tag.article_id = table_article.article_id SET article_tag.article_title = table_article.title;";
         String sql2 = "UPDATE article_tag JOIN tags ON article_tag.tag_id = tags.id SET article_tag.tag_name = tags.name";
         PreparedStatement preparedStatement = connection.prepareStatement(sql1);
         int result1 = preparedStatement.executeUpdate();

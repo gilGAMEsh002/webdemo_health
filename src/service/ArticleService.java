@@ -6,6 +6,7 @@ import pojo.Article;
 import pojo.SimpleArticle;
 import utils.ArticleUtil;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,19 +100,19 @@ public class ArticleService {
         return result;
     }
     //通过文章id获取title
-    public String getTitle(int id){
-        return dao.getTitleById(id);
+    public String getTitle(int id) throws SQLException, ClassNotFoundException {
+        return  new ArticleDaoImpl().getTitleById(id);
     }
     //通过文章title获取id
-    public List getId(String title){
-        return dao.getIdByTitle(title);
+    public List getId(String title) throws SQLException, ClassNotFoundException {
+        return  new ArticleDaoImpl().getIdByTitle(title);
     }
     //添加文章
-    public Article addArticle(String title,String username,String content,String tags){
-        return dao.addArticle(title,username,content,tags);
+    public Article addArticle(String title,String username,String content,String tags) throws SQLException, ClassNotFoundException {
+        return new ArticleDaoImpl().addArticle(title,username,content,tags);
     }
     //删除文章
-    public boolean deleteArticle(int id){
-        return dao.deleteArticle(id);
+    public boolean deleteArticle(int id) throws SQLException, ClassNotFoundException {
+        return  new ArticleDaoImpl().deleteArticle(id);
     }
 }
