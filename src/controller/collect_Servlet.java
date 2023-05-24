@@ -1,6 +1,6 @@
 package controller;
 
-import dao.CollectDao;
+import dao.impl.CollectDaoImpl;
 import pojo.*;
 
 import javax.servlet.*;
@@ -15,7 +15,7 @@ public class collect_Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        CollectDao cd=new CollectDao();
+        CollectDaoImpl cd=new CollectDaoImpl();
         String is_collect=request.getParameter("is_collect");//接收是否收藏
         //String username=request.getParameter("username");
         HttpSession session= request.getSession();
@@ -48,7 +48,7 @@ public class collect_Servlet extends HttpServlet {
             }catch (Exception E){System.out.println("出错");}
 
         }
-        response.sendRedirect("test.jsp");
+        response.sendRedirect("article.jsp");
     }
 
     @Override

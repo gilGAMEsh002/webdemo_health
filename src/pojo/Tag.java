@@ -3,7 +3,7 @@ package pojo;
 public class Tag {
     private int id;
     private String name;
-    private String article_number;
+    private int article_number;
 
     public Tag(String name) {
         this.name = name;
@@ -13,7 +13,7 @@ public class Tag {
         
     }
 
-    public Tag(int id, String name, String article_number) {
+    public Tag(int id, String name, int article_number) {
         this.id = id;
         this.name = name;
         this.article_number = article_number;
@@ -35,11 +35,11 @@ public class Tag {
         this.name = name;
     }
 
-    public String getArticle_number() {
+    public int getArticle_number() {
         return article_number;
     }
 
-    public void setArticle_number(String article_number) {
+    public void setArticle_number(int article_number) {
         this.article_number = article_number;
     }
 }

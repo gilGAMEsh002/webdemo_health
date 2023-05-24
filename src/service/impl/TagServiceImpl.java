@@ -29,8 +29,6 @@ public class TagServiceImpl implements TagService {
             }
         }
 
-
-
         //根据标签名,获得标签id
         int[] tags_id = new int[tags.length];
         for (int i = 0; i < tags.length; i++) {

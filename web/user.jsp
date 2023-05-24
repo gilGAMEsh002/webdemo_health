@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="java.util.ArrayList,dao.*" %>
+<%@ page import="dao.impl.CollectDaoImpl" %>
+<%@ page import="service.ArticleService" %>
 
 <%--用户未登录会被过滤,跳转到login.jsp--%>
 <%--用户已登录则在此显示用户信息
@@ -21,82 +23,113 @@
 
 %>
 <head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<title>Title</title>
+    <title>Title</title>
 
-<script>
-    function confirmPassword(){
-        var password1 = document.getElementById("newpassword")
-        var password2 = document.getElementById("confirm_newpassword")
-        var warning = document.getElementById("warning")
+    <script>
+        function confirmPassword(){
+            var password1 = document.getElementById("newpassword")
+            var password2 = document.getElementById("confirm_newpassword")
+            var warning = document.getElementById("warning")
 
-        if(password1.value!==password2.value){
-            password2.setCustomValidity("两次密码不一致,请重新输入")
-            warning.style.display = "inline";
-            // document.getElementById("warning").innerHTML="<br>两次输入密码一致";
-            // document.getElementById("submit").disabled = false;
+            if(password1.value!==password2.value){
+                password2.setCustomValidity("两次密码不一致,请重新输入")
+                warning.style.display = "inline";
+                // document.getElementById("warning").innerHTML="<br>两次输入密码一致";
+                // document.getElementById("submit").disabled = false;
 
-        }else {
-            password2.setCustomValidity('');
-            warning.style.display = "none";
-            // document.getElementById("warning").innerHTML="<br>两次输入密码不一致!";
-            // document.getElementById("submit").disabled = true;
+            }else {
+                password2.setCustomValidity('');
+                warning.style.display = "none";
+                // document.getElementById("warning").innerHTML="<br>两次输入密码不一致!";
+                // document.getElementById("submit").disabled = true;
+            }
+
+        }
+        document.getElementById("newpassword").onchange = confirmPassword;
+        document.getElementById("confirm_newpassword").onkeyup = confirmPassword;
+
+        function uploadAvatar() {
+            // 获取上传的文件
+            var file = document.querySelector('input[type="file"]').files[0];
+
+            // 构造 FormData 对象
+            var formData = new FormData();
+            formData.append('avatar', file, '<%= user.getUserName() %>' + Date.now() + '.jpg');
+
+            // 发送 Ajax 请求
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'UploadImageServlet', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // 上传成功，刷新页面
+                    window.location.reload();
+                } else {
+                    // 上传失败，显示错误信息
+                    alert('上传失败：' + xhr.statusText);
+                }
+            };
+            xhr.send(formData);
+
+
+            document.querySelector('#uploadForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                uploadAvatar();
+            });
         }
 
-    }
-    document.getElementById("newpassword").onchange = confirmPassword;
-    document.getElementById("confirm_newpassword").onkeyup = confirmPassword;
+    </script>
+    <style>
+        .search-btn {
+            color: #666;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 40px;
+            text-align: center;
+        }
 
-    function uploadAvatar() {
-        // 获取上传的文件
-        var file = document.querySelector('input[type="file"]').files[0];
-
-        // 构造 FormData 对象
-        var formData = new FormData();
-        formData.append('avatar', file, '<%= user.getUserName() %>' + Date.now() + '.jpg');
-
-        // 发送 Ajax 请求
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'UploadImageServlet', true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // 上传成功，刷新页面
-                window.location.reload();
-            } else {
-                // 上传失败，显示错误信息
-                alert('上传失败：' + xhr.statusText);
-            }
-        };
-        xhr.send(formData);
-
-
-        document.querySelector('#uploadForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            uploadAvatar();
-        });
-    }
-
-</script>
+        .search-btn i {
+            font-size: 18px;
+            line-height: 40px;
+        }
+    </style>
 </head>
 <body onload="initAJAX()">
 <nav>
     <img src="../image/6019@1580486573@2.png" style="width: 100%; height: calc(1/3 * 100%); object-fit: none; object-position: bottom;">
 </nav>
-<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #fff;">
-    <ul style="margin-left: 5px;">
-        <li><strong><a href="index.jsp" style="font-size: 24px;">健康</a></strong></li>
-        <li><a href="tags.jsp">标签页</a></li>
-        <li><a href="discussion.jsp">讨论组</a></li>
+<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #ffffff;">
+    <ul style="margin-left: 1px;width: 25%; ">
+        <li style="display: flex;justify-content: center;align-content: center;"><strong><a href="index.jsp" style="font-size: 30px;">健&nbsp;康</a></strong></li>
+        <li><a href="ShowTagsServlet">标签页</a></li>
+        <li ><a href="discussion.jsp">讨论组</a></li>
     </ul>
-    <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">
-        <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">
+    <%--    <ul style=";border: black 1px solid;">--%>
+
+    <%--    </ul>--%>
+    <%--    <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">--%>
+    <%--        <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">--%>
+    <%--    </ul>--%>
+
+    <ul style="flex: 1; display: flex; justify-content: center; align-items: center;padding: 10px;margin-right: 60px  ">
+        <form action="SearchServlet" method="post" style="width: 100%; display: flex; justify-content: center; align-items: center;margin-bottom: -15px;">
+            <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 100%;">
+            <button style="visibility: hidden;" type="submit" class="search-btn" value="搜索"></button>
+        </form>
     </ul>
+
     <ul style="margin-right: 5px;">
-        <li><a href="user.jsp" role="button" style="padding: 10px;color: #000;">用户</a></li>
+        <li><a href="addArticle.jsp" >发布文章</a>
+        <li><a href="message.jsp" >邮件</a>
+        <li><a href="user.jsp" ><img style="width: 60px;height: 60px;border-radius: 60px" src="${pageContext.request.contextPath}<%=user.getAvatar_path()%>" alt="用户头像"></a>
     </ul>
 </nav>
-
 <article>
 
     <header>
@@ -110,7 +143,10 @@
                     <img style="width: 180px;height: 180px;border-radius: 10px" src="${pageContext.request.contextPath}<%=user.getAvatar_path()%>" alt="用户头像">
                 </li>
                 <br>
+                <br>
+                <br>
                 <li style="display: inline-block;"><strong>用户名:<%=user.getUserName()%></strong></li>
+                <br>
                 <br>
                 <li style="display: inline-block;"><strong>邮 箱:<%=user.getMail()%></strong></li>
             </ul>
@@ -181,7 +217,8 @@
     <%
         String favorite="1";
         //User user = (User) session.getAttribute("user");
-        CollectDao dao=new CollectDao();
+        CollectDaoImpl dao=new CollectDaoImpl();
+        ArticleService articleService=ArticleService.getInstance();
         ArrayList collections=new ArrayList();
         collections=dao.userCollections(user.getUserName(), favorite);
     %>
@@ -214,7 +251,8 @@
                     out.println("<aside>\n" +
                             "    <nav>\n" +
                             "        <ul>\n" +
-                            "            <article><li><a href=\"#\">"+collections.get(i)+"</a></li></article>\n" +
+                            "            <article><li><a href= 'ArticleServlet?id="+collections.get(i)+"'>"
+                            +articleService.getTitle((Integer) collections.get(i))+"</a></li></article>\n" +
                             "        </ul>\n" +
                             "    </nav>\n" +
                             "</aside>\n" +
@@ -235,11 +273,11 @@
             <button type="submit" class="contrast" style="width: 30% ">Logout</button>
         </form>
 
-<%--        <div style="display-inside: ruby-base-container">--%>
-<%--            <a href="${pageContext.request.contextPath}/LogoutServlet" role="button" >--%>
-<%--                登出--%>
-<%--            </a>--%>
-<%--        </div>--%>
+        <%--        <div style="display-inside: ruby-base-container">--%>
+        <%--            <a href="${pageContext.request.contextPath}/LogoutServlet" role="button" >--%>
+        <%--                登出--%>
+        <%--            </a>--%>
+        <%--        </div>--%>
 
     </footer>
 

@@ -1,5 +1,6 @@
 
-<%@ page import="pojo.Tag" %><%--
+<%@ page import="pojo.Tag" %>
+<%@ page import="pojo.User" %><%--
   Created by IntelliJ IDEA.
   User: wuyuanzhou
   Date: 2023/4/23
@@ -8,11 +9,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
 <html>
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--%>
     <title>Title</title>
     <style>
         /* 全局样式 */
@@ -108,35 +109,81 @@
                 width: 100%;
             }
         }
+        .search-btn {
+            color: #666;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 40px;
+            text-align: center;
+        }
+
+        .search-btn i {
+            font-size: 18px;
+            line-height: 40px;
+        }
+
     </style>
 
 
 </head>
 <body>
-<%-- 导航栏实现   --%>
-<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #fff;">
-    <ul style="margin-left: 1px;;width: 6%; ">
+<%--&lt;%&ndash; 导航栏实现   &ndash;%&gt;--%>
+<%--<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #fff;">--%>
+<%--    <ul style="margin-left: 1px;;width: 6%; ">--%>
+<%--        <li style="display: flex;justify-content: center;align-content: center;"><strong><a href="index.jsp" style="font-size: 30px;">健&nbsp;康</a></strong></li>--%>
+<%--    </ul>--%>
+<%--    <ul>--%>
+<%--        <li><a href="tags.jsp">标签页</a></li>--%>
+<%--        <li><a href="discussion.jsp">讨论组</a></li>--%>
+<%--    </ul>--%>
+<%--    <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">--%>
+<%--        <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">--%>
+<%--    </ul>--%>
+<%--    <ul style="margin-right: 5px;">--%>
+<%--        <li><a href="message.jsp">邮件</a></li>--%>
+<%--        <li><a href="user.jsp" role="button" style="padding: 10px;color: #ffffff;">用户</a></li>--%>
+<%--    </ul>--%>
+<%--</nav>--%>
+<%
+    User user = (User) session.getAttribute("user");
+%>
+<nav style="position: sticky;height: 80px;top: 0;z-index: 999;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);background-color: #ffffff;">
+    <ul style="margin-left: 1px;width: 25%; ">
         <li style="display: flex;justify-content: center;align-content: center;"><strong><a href="index.jsp" style="font-size: 30px;">健&nbsp;康</a></strong></li>
+        <li><a href="ShowTagsServlet">标签页</a></li>
+        <li ><a href="discussion.jsp">讨论组</a></li>
     </ul>
-    <ul>
-        <li><a href="tags.jsp">标签页</a></li>
-        <li><a href="discussion.jsp">讨论组</a></li>
-    </ul>
-    <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">
-        <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">
-    </ul>
-    <ul style="margin-right: 5px;">
-        <li><a href="message.jsp">邮件</a></li>
-        <li><a href="user.jsp" role="button" style="padding: 10px;color: #ffffff;">用户</a></li>
-    </ul>
-</nav>
+    <%--    <ul style=";border: black 1px solid;">--%>
 
+    <%--    </ul>--%>
+    <%--    <ul style="flex: 1; display: flex;margin-bottom:-20px;margin-left: -50px; justify-content: center; align-items: center;padding: 10px; border-radius: 20px; border: none;  ">--%>
+    <%--        <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 70%;">--%>
+    <%--    </ul>--%>
+
+    <ul style="flex: 1; display: flex; justify-content: center; align-items: center;padding: 10px;margin-right: 60px  ">
+        <form action="SearchServlet" method="post" style="width: 100%; display: flex; justify-content: center; align-items: center;margin-bottom: -15px;">
+            <input type="search" id="search" name="search" placeholder="Search" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); opacity: 0.8;width: 100%;">
+            <button style="visibility: hidden;" type="submit" class="search-btn" value="搜索"></button>
+        </form>
+    </ul>
+
+    <ul style="margin-right: 5px;">
+        <li><a href="addArticle.jsp" >发布文章</a>
+        <li><a href="message.jsp" >邮件</a>
+        <li><a href="user.jsp" ><img style="width: 60px;height: 60px;border-radius: 60px" src="${pageContext.request.contextPath}<%=user.getAvatar_path()%>" alt="用户头像"></a>
+    </ul>
+</nav><%--main--%>
 <br>
 <div class="show-block">
     <h2>标签列表</h2>
     <div class="clearfix">
 
-        <div class="tag" >#${requestScope.tags[0].name}(${requestScope.tags[1].article_number})</div>
+        <div class="tag" >#${requestScope.tags[0].name}(${requestScope.tags[0].article_number})</div>
         <div class="tag">#${requestScope.tags[1].name}(${requestScope.tags[1].article_number})</div>
         <div class="tag">#${requestScope.tags[2].name}(${requestScope.tags[2].article_number})</div>
         <div class="tag">#${requestScope.tags[3].name}(${requestScope.tags[3].article_number})</div>
@@ -162,16 +209,19 @@
     </form>
 </div>
 
+<div class="add-block" style="display: flex;flex-direction: row;">
+    <form id="article-form" style="width: 100%" >
+        <label for="title">文章标题：</label>
+        <input type="text" name="title" id="title">
 
-<form id="article-form" >
-    <label for="title">文章标题：</label>
-    <input type="text" name="title" id="title">
+        <label for="tags">文章标签：</label>
+        <input type="text" name="tags" id="tags">
+        <br>
+        <button type="submit" onclick="">提交</button>
+    </form>
+</div>
 
-    <label for="tags">文章标签：</label>
-    <input type="text" name="tags" id="tags">
 
-    <button type="submit" onclick="">提交</button>
-</form>
 
 <script>
     $(function() {

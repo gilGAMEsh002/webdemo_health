@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" import="dao.*" import="java.util.ArrayList" %>
 <%@ page import="pojo.User" %>
+<%@ page import="dao.impl.CollectDaoImpl" %>
+<%@ page import="controller.ArticleServlet" %>
+<%@ page import="service.ArticleService" %>
 <html>
 <head>
     <title>Title</title>
@@ -15,7 +18,8 @@
 <%
     String favorite="1";
     User user = (User) session.getAttribute("user");
-    CollectDao dao=new CollectDao();
+    ArticleService articleService=ArticleService.getInstance();
+    CollectDaoImpl dao=new CollectDaoImpl();
     ArrayList collections=new ArrayList();
     collections=dao.userCollections(user.getUserName(),favorite);
     for (int i=collections.size()-1;i>=0;i--)
@@ -23,7 +27,8 @@
         out.println("<aside>\n" +
                 "    <nav>\n" +
                 "        <ul>\n" +
-                "            <article><li><a href=\"#\">"+collections.get(i)+"</a></li></article>\n" +
+                "            <article><li><a href= 'ArticleServlet?id="+collections.get(i)+"'>"
+                +articleService.getTitle((Integer) collections.get(i))+"</a></li></article>\n" +
                 "        </ul>\n" +
                 "    </nav>\n" +
                 "</aside>\n" +

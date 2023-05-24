@@ -22,7 +22,7 @@ public class TagDaoImpl implements TagDao {
             tag = new Tag();
             tag.setName(resultSet.getString("name"));
             tag.setId(resultSet.getInt("id"));
-            tag.setArticle_number(resultSet.getString("Article_number"));
+            tag.setArticle_number(resultSet.getInt("Article_number"));
         }
 
         return tag;
@@ -42,7 +42,7 @@ public class TagDaoImpl implements TagDao {
         resultSet = preparedStatement.executeQuery();
 
         while(resultSet.next()){
-            Tag tag = new Tag(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getString("Article_number"));
+            Tag tag = new Tag(resultSet.getInt("id"),resultSet.getString("name"),resultSet.getInt("Article_number"));
             tags.add(tag);
         }
 //        for (Tag tag:tags
